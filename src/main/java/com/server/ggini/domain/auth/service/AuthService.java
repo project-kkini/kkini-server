@@ -3,11 +3,9 @@ package com.server.ggini.domain.auth.service;
 import com.server.ggini.domain.auth.dto.response.LoginResponse;
 import com.server.ggini.domain.auth.dto.response.TokenPairResponse;
 import com.server.ggini.domain.auth.dto.response.oauth.OauthUserInfoResponse;
-import com.server.ggini.domain.auth.repository.RefreshTokenRepository;
 import com.server.ggini.domain.auth.service.kakao.KakaoClient;
 import com.server.ggini.domain.member.domain.Member;
 import com.server.ggini.domain.member.domain.OauthInfo;
-import com.server.ggini.domain.member.repository.MemberRepository;
 import com.server.ggini.domain.member.service.MemberService;
 import com.server.ggini.global.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthService {
 
     private final KakaoClient kakaoClient;
-    private final MemberRepository memberRepository;
     private final MemberService memberService;
     private final JwtTokenProvider jwtTokenProvider;
 
@@ -28,8 +25,7 @@ public class AuthService {
         OauthUserInfoResponse oauthUserInfoResponse = getOauthUserInfo(socialAccessToken, OAuthProvider.from(provider));
         OauthInfo oauthInfo = oauthUserInfoResponse.toEntity();
 
-        Member member = memberRepository.findByOauthInfo(oauthInfo)
-                .orElseGet(() -> memberService.createMember(oauthInfo));
+        Member member = memberService.getMemberByOAuthInfo(oauthInfo);
 
         TokenPairResponse tokenPairResponse = jwtTokenProvider.generateTokenPair(member.getId(), member.getRole());
         return LoginResponse.of(member, tokenPairResponse);
