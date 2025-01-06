@@ -1,0 +1,15 @@
+spring:
+  profiles:
+    active: local
+    group:
+      test: "test"
+      local: "local, datasource"
+      dev: "dev, datasource"
+      prod: "prod, datasource"
+    include:
+      - security
+
+logging:
+  level:
+    root: INFO
+    org.springframework.security: TRACE
