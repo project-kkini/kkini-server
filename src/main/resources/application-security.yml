@@ -1,0 +1,13 @@
+jwt:
+  access-token-secret: ${JWT_ACCESS_TOKEN_SECRET:}
+  refresh-token-secret: ${JWT_REFRESH_TOKEN_SECRET:}
+  access-token-expiration-time: ${JWT_ACCESS_TOKEN_EXPIRATION_TIME:36000000} #10000시간
+  refresh-token-expiration-time: ${JWT_REFRESH_TOKEN_EXPIRATION_TIME:604800} #7일
+  issuer: ${JWT_ISSUER:}
+
+
+kakao:
+  login:
+    client_id: ${KAKAO_LOGIN_CLIENT_ID}
+    client_secret: ${KAKAO_LOGIN_CLIENT_SECRET}
+    redirect_uri: ${KAKAO_LOGIN_REDIRECT_URI}
