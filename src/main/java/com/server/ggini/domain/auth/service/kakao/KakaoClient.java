@@ -7,9 +7,13 @@ import com.server.ggini.global.error.exception.AccessDeniedException;
 import com.server.ggini.global.error.exception.ErrorCode;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class KakaoClient {
@@ -26,7 +30,12 @@ public class KakaoClient {
                         .header("Authorization", TOKEN_PREFIX + token)
                         .exchange(
                                 (request, response) -> {
+                                    HttpStatusCode statusCode = response.getStatusCode();
+                                    log.info("Received response with status: {}", statusCode);
+
                                     if (!response.getStatusCode().is2xxSuccessful()) {
+                                        log.error("Kakao API error. Status: {}, Response: {}",
+                                                statusCode, response.bodyTo(String.class));
                                         throw new AccessDeniedException(ErrorCode.KAKAO_TOKEN_CLIENT_FAILED);
                                     }
                                     return Objects.requireNonNull(
