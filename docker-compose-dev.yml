@@ -1,0 +1,49 @@
+services:
+  back:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: kkini-server-dev
+    image: kkini-server-dev
+    restart: always
+    ports:
+      - 8080:8080
+    environment:
+      - TZ=Asia/Seoul
+      - SPRING_PROFILES_ACTIVE=dev
+      - SPRING_DATASOURCE_URL=jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/${DB_NAME}?useSSL=false&characterEncoding=UTF-8&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true&tinyInt1isBit=false
+      - SPRING_DATASOURCE_USERNAME=${MYSQL_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${MYSQL_PASSWORD}
+      - JWT_ACCESS_TOKEN_SECRET=${JWT_ACCESS_TOKEN_SECRET}
+      - JWT_REFRESH_TOKEN_SECRET=${JWT_REFRESH_TOKEN_SECRET}
+      - JWT_ACCESS_TOKEN_EXPIRATION_TIME=${JWT_ACCESS_TOKEN_EXPIRATION_TIME}
+      - JWT_REFRESH_TOKEN_EXPIRATION_TIME=${JWT_REFRESH_TOKEN_EXPIRATION_TIME}
+      - JWT_ISSUER=${JWT_ISSUER}
+      - KAKAO_LOGIN_CLIENT_ID=${KAKAO_LOGIN_CLIENT_ID}
+      - KAKAO_LOGIN_CLIENT_SECRET=${KAKAO_LOGIN_CLIENT_SECRET}
+      - KAKAO_LOGIN_REDIRECT_URI=${KAKAO_LOGIN_REDIRECT_URI}
+    depends_on:
+      - mysql
+    networks:
+      - kkini
+
+  mysql:
+    image: mysql:8.0
+    container_name: kkini-mysql-dev
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - kkini
+volumes:
+  mysql_data:
+
+networks:
+  kkini:
+    driver: bridge
