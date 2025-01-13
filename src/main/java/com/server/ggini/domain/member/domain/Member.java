@@ -2,6 +2,7 @@ package com.server.ggini.domain.member.domain;
 
 import com.server.ggini.domain.member.domain.nickName.Adjective;
 import com.server.ggini.domain.member.domain.nickName.Animal;
+import com.server.ggini.global.common.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -18,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Member {
+public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,8 +38,10 @@ public class Member {
     private OauthInfo oauthInfo;
 
     @Builder
-    public Member(String nickname, MemberRole role, OauthInfo oauthInfo) {
+    public Member(String nickname, String email, String password, MemberRole role, OauthInfo oauthInfo) {
         this.nickname = nickname;
+        this.email = email;
+        this.password = password;
         this.role = role;
         this.oauthInfo = oauthInfo;
     }
