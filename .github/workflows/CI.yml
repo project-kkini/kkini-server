@@ -9,7 +9,9 @@ name: Gradle Package
 
 on:
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - "main"
+      - "develop"
 
 jobs:
   build:
@@ -30,7 +32,7 @@ jobs:
           distribution: 'temurin'
 
 
-      - name: build
+      - name: build and test
         run: |
           chmod +x gradlew
           ./gradlew build 
