@@ -8,5 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface MemberRepository extends JpaRepository<Member, Long> {
     Optional<Member> findByOauthInfo(OauthInfo oauthInfo);
     Optional<Member> findByNickname(String nickname);
+    Optional<Member> findByEmail(String email);
 
 }

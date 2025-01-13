@@ -1,5 +1,6 @@
 package com.server.ggini.global.security;
 
+import com.server.ggini.domain.member.domain.Member;
 import com.server.ggini.domain.member.domain.MemberRole;
 import com.server.ggini.global.properties.jwt.JwtProperties;
 import io.jsonwebtoken.Claims;
@@ -20,31 +21,31 @@ public class JwtUtil {
     public static final String TOKEN_ROLE_NAME = "role";
     private final JwtProperties jwtProperties;
 
-    public String generateAccessToken(Long memberId, MemberRole role) {
+    public String generateAccessToken(Member member) {
         Date issuedAt = new Date();
         Date expiredAt = new Date(issuedAt.getTime() + jwtProperties.accessTokenExpirationMilliTime());
         return Jwts.builder()
-            .setIssuer(jwtProperties.issuer())
-            .setSubject(memberId.toString())
-            .claim(TOKEN_ROLE_NAME, role.getValue())
-            .setIssuedAt(issuedAt)
-            .setExpiration(expiredAt)
-            .signWith(getAccessTokenKey())
-            .compact();
+                .setIssuer(jwtProperties.issuer())
+                .setSubject(member.getId().toString())
+                .claim(TOKEN_ROLE_NAME, member.getRole().getValue())
+                .setIssuedAt(issuedAt)
+                .setExpiration(expiredAt)
+                .signWith(getAccessTokenKey())
+                .compact();
     }
 
-    public String generateRefreshToken(Long memberId, MemberRole role) {
+    public String generateRefreshToken(Member member) {
         Date issuedAt = new Date();
         Date expiredAt = new Date(issuedAt.getTime() + jwtProperties.refreshTokenExpirationMilliTime());
 
         return Jwts.builder()
-            .setIssuer(jwtProperties.issuer())
-            .setSubject(memberId.toString())
-            .claim(TOKEN_ROLE_NAME, role.getValue())
-            .setIssuedAt(issuedAt)
-            .setExpiration(expiredAt)
-            .signWith(getRefreshTokenKey())
-            .compact();
+                .setIssuer(jwtProperties.issuer())
+                .setSubject(member.getId().toString())
+                .claim(TOKEN_ROLE_NAME, member.getRole().getValue())
+                .setIssuedAt(issuedAt)
+                .setExpiration(expiredAt)
+                .signWith(getRefreshTokenKey())
+                .compact();
     }
 
     private Key getAccessTokenKey() {
