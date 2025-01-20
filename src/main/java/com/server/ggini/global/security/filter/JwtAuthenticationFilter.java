@@ -1,6 +1,6 @@
 package com.server.ggini.global.security.filter;
 
-import com.moplus.moplus_server.global.security.token.JwtAuthenticationToken;
+import com.server.ggini.global.security.token.JwtAuthenticationToken;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

@@ -2,9 +2,9 @@ package com.server.ggini.global.config.security;
 
 import com.server.ggini.domain.member.service.MemberService;
 import com.server.ggini.global.security.handler.EmailPasswordSuccessHandler;
-import com.server.ggini.global.security.provider.JwtTokenProvider;
 import com.server.ggini.global.security.filter.EmailPasswordAuthenticationFilter;
 import com.server.ggini.global.security.provider.EmailPasswordAuthenticationProvider;
+import com.server.ggini.global.security.provider.JwtTokenProvider;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -87,6 +87,7 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         ProviderManager providerManager = (ProviderManager) authenticationConfiguration.getAuthenticationManager();
         providerManager.getProviders().add(emailPasswordAuthenticationProvider());
+        providerManager.getProviders().add(jwtTokenProvider);
         return configuration.getAuthenticationManager();
     }
 

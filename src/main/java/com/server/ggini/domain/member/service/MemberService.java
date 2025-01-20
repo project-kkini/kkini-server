@@ -33,4 +33,9 @@ public class MemberService {
     public Member getMemberByEmail(String email) {
         return memberRepository.findByEmailOrThrow(email);
     }
+
+    @Transactional(readOnly = true)
+    public Member getMemberById(Long id) {
+        return memberRepository.findByIdOrThrow(id);
+    }
 }

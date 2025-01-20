@@ -7,7 +7,6 @@ import com.server.ggini.domain.auth.service.kakao.KakaoClient;
 import com.server.ggini.domain.member.domain.Member;
 import com.server.ggini.domain.member.domain.OauthInfo;
 import com.server.ggini.domain.member.service.MemberService;
-import com.server.ggini.global.security.provider.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
