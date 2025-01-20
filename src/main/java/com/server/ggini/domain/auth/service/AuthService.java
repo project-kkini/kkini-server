@@ -7,7 +7,7 @@ import com.server.ggini.domain.auth.service.kakao.KakaoClient;
 import com.server.ggini.domain.member.domain.Member;
 import com.server.ggini.domain.member.domain.OauthInfo;
 import com.server.ggini.domain.member.service.MemberService;
-import com.server.ggini.global.security.JwtTokenProvider;
+import com.server.ggini.global.security.provider.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +27,7 @@ public class AuthService {
 
         Member member = memberService.getMemberByOAuthInfo(oauthInfo);
 
-        TokenPairResponse tokenPairResponse = jwtTokenProvider.generateTokenPair(member.getId(), member.getRole());
+        TokenPairResponse tokenPairResponse = jwtTokenProvider.generateTokenPair(member);
         return LoginResponse.of(member, tokenPairResponse);
     }
 

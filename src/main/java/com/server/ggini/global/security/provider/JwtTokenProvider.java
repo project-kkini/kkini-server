@@ -1,9 +1,11 @@
-package com.server.ggini.global.security;
+package com.server.ggini.global.security.provider;
 
 import com.server.ggini.domain.auth.domain.RefreshToken;
 import com.server.ggini.domain.auth.dto.response.TokenPairResponse;
 import com.server.ggini.domain.auth.repository.RefreshTokenRepository;
+import com.server.ggini.domain.member.domain.Member;
 import com.server.ggini.domain.member.domain.MemberRole;
+import com.server.ggini.global.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,19 +17,19 @@ public class JwtTokenProvider {
     private final RefreshTokenRepository refreshTokenRepository;
 
 
-    public TokenPairResponse generateTokenPair(Long memberId, MemberRole memberRole) {
-        String accessToken = createAccessToken(memberId, memberRole);
-        String refreshToken = createRefreshToken(memberId, memberRole);
+    public TokenPairResponse generateTokenPair(Member member) {
+        String accessToken = createAccessToken(member);
+        String refreshToken = createRefreshToken(member);
         return TokenPairResponse.of(accessToken, refreshToken);
     }
 
-    private String createAccessToken(Long memberId, MemberRole memberRole) {
-        return jwtUtil.generateAccessToken(memberId, memberRole);
+    private String createAccessToken(Member member) {
+        return jwtUtil.generateAccessToken(member);
     }
 
-    private String createRefreshToken(Long memberId, MemberRole memberRole) {
-        String token = jwtUtil.generateRefreshToken(memberId, memberRole);
-        saveRefreshToken(memberId, token);
+    private String createRefreshToken(Member member) {
+        String token = jwtUtil.generateRefreshToken(member);
+        saveRefreshToken(member.getId(), token);
         return token;
     }
 
