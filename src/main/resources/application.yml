@@ -3,7 +3,7 @@ spring:
     active: ${profile}
     group:
       test: "test"
-      local: "local, datasource"
+      local: "local"
       dev: "dev, datasource"
       prod: "prod, datasource"
     include:
