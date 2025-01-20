@@ -46,6 +46,10 @@ public class Member extends BaseEntity {
         this.oauthInfo = oauthInfo;
     }
 
+    public boolean isMatchingPassword(String password) {
+        return this.password.equals(password);
+    }
+
     public static String createNickname() {
 
         return Adjective.getRandomName() + Animal.getRandomName();

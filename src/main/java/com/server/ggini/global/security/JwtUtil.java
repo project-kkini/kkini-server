@@ -1,10 +1,7 @@
 package com.server.ggini.global.security;
 
 import com.server.ggini.domain.member.domain.Member;
-import com.server.ggini.domain.member.domain.MemberRole;
 import com.server.ggini.global.properties.jwt.JwtProperties;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import java.security.Key;
