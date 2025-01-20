@@ -23,7 +23,5 @@ management:
     health:
       enabled: true
 
-cors-allowed-origins:
-  http://localhost:8080,
-  http://localhost:3000,
+
 
