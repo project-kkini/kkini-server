@@ -16,7 +16,6 @@ public class JwtTokenProvider {
     private final JwtUtil jwtUtil;
     private final RefreshTokenRepository refreshTokenRepository;
 
-
     public TokenPairResponse generateTokenPair(Member member) {
         String accessToken = createAccessToken(member);
         String refreshToken = createRefreshToken(member);
