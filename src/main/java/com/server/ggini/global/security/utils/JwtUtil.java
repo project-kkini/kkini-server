@@ -1,4 +1,4 @@
-package com.server.ggini.global.security;
+package com.server.ggini.global.security.utils;
 
 import com.server.ggini.domain.member.domain.Member;
 import com.server.ggini.global.properties.jwt.JwtProperties;

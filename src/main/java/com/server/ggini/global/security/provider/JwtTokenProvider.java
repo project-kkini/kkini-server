@@ -3,7 +3,7 @@ package com.server.ggini.global.security.provider;
 import com.server.ggini.domain.member.domain.Member;
 import com.server.ggini.domain.member.service.MemberService;
 import com.server.ggini.global.error.exception.ErrorCode;
-import com.server.ggini.global.security.JwtUtil;
+import com.server.ggini.global.security.utils.JwtUtil;
 import com.server.ggini.global.security.exception.JwtInvalidException;
 import com.server.ggini.global.security.token.JwtAuthenticationToken;
 import io.jsonwebtoken.Claims;
@@ -19,7 +19,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
-@Service
 @RequiredArgsConstructor
 public class JwtTokenProvider implements AuthenticationProvider {
 

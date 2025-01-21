@@ -7,6 +7,8 @@ import com.server.ggini.domain.auth.service.kakao.KakaoClient;
 import com.server.ggini.domain.member.domain.Member;
 import com.server.ggini.domain.member.domain.OauthInfo;
 import com.server.ggini.domain.member.service.MemberService;
+import com.server.ggini.global.security.provider.JwtTokenProvider;
+import com.server.ggini.global.security.utils.JwtTokenGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +19,7 @@ public class AuthService {
 
     private final KakaoClient kakaoClient;
     private final MemberService memberService;
-    private final JwtTokenProvider jwtTokenProvider;
+    private final JwtTokenGenerator jwtTokenGenerator;
 
     @Transactional
     public LoginResponse socialLogin(String socialAccessToken, String provider) {
@@ -26,7 +28,7 @@ public class AuthService {
 
         Member member = memberService.getMemberByOAuthInfo(oauthInfo);
 
-        TokenPairResponse tokenPairResponse = jwtTokenProvider.generateTokenPair(member);
+        TokenPairResponse tokenPairResponse = jwtTokenGenerator.generateTokenPair(member);
         return LoginResponse.of(member, tokenPairResponse);
     }
 
