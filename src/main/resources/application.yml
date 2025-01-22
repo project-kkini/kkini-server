@@ -13,3 +13,8 @@ logging:
   level:
     root: INFO
     org.springframework.security: TRACE
+
+cors-allowed-origins:
+  http://localhost:8080,
+  http://localhost:3000,
+  https://kkini-front.vercel.app

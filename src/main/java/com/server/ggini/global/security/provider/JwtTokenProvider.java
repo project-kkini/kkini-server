@@ -1,45 +1,68 @@
 package com.server.ggini.global.security.provider;
 
-import com.server.ggini.domain.auth.domain.RefreshToken;
-import com.server.ggini.domain.auth.dto.response.TokenPairResponse;
-import com.server.ggini.domain.auth.repository.RefreshTokenRepository;
 import com.server.ggini.domain.member.domain.Member;
-import com.server.ggini.domain.member.domain.MemberRole;
-import com.server.ggini.global.security.JwtUtil;
+import com.server.ggini.domain.member.service.MemberService;
+import com.server.ggini.global.error.exception.ErrorCode;
+import com.server.ggini.global.security.utils.JwtUtil;
+import com.server.ggini.global.security.exception.JwtInvalidException;
+import com.server.ggini.global.security.token.JwtAuthenticationToken;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.security.SignatureException;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
-@Service
 @RequiredArgsConstructor
-public class JwtTokenProvider {
+public class JwtTokenProvider implements AuthenticationProvider {
 
     private final JwtUtil jwtUtil;
-    private final RefreshTokenRepository refreshTokenRepository;
+    private final MemberService memberService;
 
+    @Override
+    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+        Claims claims = getClaims(authentication);
+        final Member member = getMemberById(claims.getSubject());
 
-    public TokenPairResponse generateTokenPair(Member member) {
-        String accessToken = createAccessToken(member);
-        String refreshToken = createRefreshToken(member);
-        return TokenPairResponse.of(accessToken, refreshToken);
+        return new JwtAuthenticationToken(
+                member,
+                "",
+                List.of(new SimpleGrantedAuthority(member.getRole().getValue())
+                ));
     }
 
-    private String createAccessToken(Member member) {
-        return jwtUtil.generateAccessToken(member);
-    }
-
-    private String createRefreshToken(Member member) {
-        String token = jwtUtil.generateRefreshToken(member);
-        saveRefreshToken(member.getId(), token);
-        return token;
-    }
-
-    private void saveRefreshToken(Long memberId, String refreshToken) {
-        if(refreshTokenRepository.existsByMemberId(memberId)) {
-            refreshTokenRepository.deleteByMemberId(memberId);
+    private Claims getClaims(Authentication authentication) {
+        Claims claims;
+        try {
+            claims = jwtUtil.getAccessTokenClaims(authentication);
+        } catch (ExpiredJwtException expiredJwtException) {
+            throw new JwtInvalidException(ErrorCode.EXPIRED_TOKEN.getMessage());
+        } catch (SignatureException signatureException) {
+            throw new JwtInvalidException(ErrorCode.WRONG_TYPE_TOKEN.getMessage());
+        } catch (MalformedJwtException malformedJwtException) {
+            throw new JwtInvalidException(ErrorCode.UNSUPPORTED_TOKEN.getMessage());
+        } catch (IllegalArgumentException illegalArgumentException) {
+            throw new JwtInvalidException(ErrorCode.UNKNOWN_ERROR.getMessage());
         }
-        refreshTokenRepository.save(RefreshToken.builder()
-                .memberId(memberId)
-                .token(refreshToken)
-                .build());
+        return claims;
+    }
+
+    private Member getMemberById(String id) {
+        try {
+            return memberService.getMemberById(Long.parseLong(id));
+        } catch (Exception e) {
+            throw new BadCredentialsException(ErrorCode.BAD_CREDENTIALS.getMessage());
+        }
+    }
+
+    @Override
+    public boolean supports(Class<?> authentication) {
+        return JwtAuthenticationToken.class.isAssignableFrom(authentication);
     }
 }

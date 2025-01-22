@@ -30,7 +30,12 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
-    public Member getMemberByEmail(String email) {
+    public Member getMemberByEmail(String email) throws Exception{
         return memberRepository.findByEmailOrThrow(email);
+    }
+
+    @Transactional(readOnly = true)
+    public Member getMemberById(Long id) {
+        return memberRepository.findByIdOrThrow(id);
     }
 }

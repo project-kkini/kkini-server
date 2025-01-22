@@ -2,7 +2,7 @@ package com.server.ggini.global.security.handler;
 
 import com.server.ggini.domain.member.domain.Member;
 import com.server.ggini.global.security.AuthConstants;
-import com.server.ggini.global.security.JwtUtil;
+import com.server.ggini.global.security.utils.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

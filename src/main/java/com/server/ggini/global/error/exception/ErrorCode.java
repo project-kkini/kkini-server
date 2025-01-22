@@ -16,8 +16,7 @@ public enum ErrorCode {
     //Auth
     AUTH_NOT_FOUND(HttpStatus.UNAUTHORIZED, "시큐리티 인증 정보를 찾을 수 없습니다."),
     UNKNOWN_ERROR(HttpStatus.UNAUTHORIZED, "알 수 없는 에러"),
-    EXPIRED_ACCESS_TOKEN(HttpStatus.UNAUTHORIZED, "만료된 access Token입니다"),
-    EXPIRED_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "만료된 refresh Token입니다. 재로그인하세요"),
+    EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED, "만료된 Token입니다"),
     UNSUPPORTED_TOKEN(HttpStatus.UNAUTHORIZED, "토큰 길이 및 형식이 다른 Token입니다"),
     WRONG_TYPE_TOKEN(HttpStatus.UNAUTHORIZED, "서명이 잘못된 토큰입니다."),
     ACCESS_DENIED(HttpStatus.UNAUTHORIZED, "토큰이 없습니다"),

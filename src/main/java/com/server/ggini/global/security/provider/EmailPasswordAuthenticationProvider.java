@@ -18,7 +18,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class EmailPasswordAuthenticationProvider implements AuthenticationProvider {
 
     private final MemberService memberService;
-    private final BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public Authentication authenticate(final Authentication authentication) throws AuthenticationException {
