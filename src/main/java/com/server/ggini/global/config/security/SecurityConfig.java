@@ -37,8 +37,6 @@ public class SecurityConfig {
     private final MemberService memberService;
     private final EmailPasswordSuccessHandler emailPasswordSuccessHandler;
     private final JwtUtil jwtUtil;
-    private final AuthenticationConfiguration authenticationConfiguration;
-    private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
     private String[] allowUrls = {"/", "/favicon.ico",
         "/api/v1/auth/oauth/**", "/swagger-ui/**", "/v3/**"};
@@ -71,6 +69,7 @@ public class SecurityConfig {
         authenticationManagerBuilder
                 .authenticationProvider(emailPasswordAuthenticationProvider())
                 .authenticationProvider(jwtTokenProvider());
+        authenticationManagerBuilder.parentAuthenticationManager(null);
         return authenticationManagerBuilder.build();
     }
 
@@ -110,6 +109,8 @@ public class SecurityConfig {
                 .exceptionHandling(exception ->
                         exception.authenticationEntryPoint((request, response, authException) ->
                                 response.setStatus(HttpStatus.UNAUTHORIZED.value())));
+
+        http.authenticationManager(authenticationManager(http));
 
         http
                 .addFilterAt(emailPasswordAuthenticationFilter(authenticationManager(http)), UsernamePasswordAuthenticationFilter.class)
