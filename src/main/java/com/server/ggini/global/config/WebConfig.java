@@ -1,11 +1,13 @@
 package com.server.ggini.global.config;
 
+import com.server.ggini.global.annotation.AuthenticationArgumentResolver;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -14,6 +16,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RequiredArgsConstructor
 @EnableTransactionManagement
 public class WebConfig implements WebMvcConfigurer {
+
+    private final AuthenticationArgumentResolver authenticationArgumentResolver;
 
     @Value("${cors-allowed-origins}")
     private List<String> corsAllowedOrigins;
@@ -27,4 +31,8 @@ public class WebConfig implements WebMvcConfigurer {
             .allowCredentials(true);
     }
 
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+        resolvers.add(authenticationArgumentResolver);
+    }
 }

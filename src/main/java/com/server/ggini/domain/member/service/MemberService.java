@@ -30,7 +30,7 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
-    public Member getMemberByEmail(String email) {
+    public Member getMemberByEmail(String email) throws Exception{
         return memberRepository.findByEmailOrThrow(email);
     }
 
