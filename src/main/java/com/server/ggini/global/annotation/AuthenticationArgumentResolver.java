@@ -1,10 +1,10 @@
 package com.server.ggini.global.annotation;
 
-import com.server.backyaserver.domain.member.domain.Member;
-import com.server.backyaserver.domain.member.repository.MemberRepository;
-import com.server.backyaserver.global.error.exception.BusinessException;
-import com.server.backyaserver.global.error.exception.ErrorCode;
-import com.server.backyaserver.global.error.exception.NotFoundException;
+import com.server.ggini.domain.member.domain.Member;
+import com.server.ggini.domain.member.repository.MemberRepository;
+import com.server.ggini.global.error.exception.BusinessException;
+import com.server.ggini.global.error.exception.ErrorCode;
+import com.server.ggini.global.error.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.security.core.Authentication;
