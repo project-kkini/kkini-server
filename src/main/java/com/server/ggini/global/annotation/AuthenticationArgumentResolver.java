@@ -20,8 +20,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 public class AuthenticationArgumentResolver implements HandlerMethodArgumentResolver {
 
     private final MemberRepository memberRepository;
-
-
+    
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         final boolean isUserAuthAnnotation = parameter.getParameterAnnotation(AuthUser.class) != null;
