@@ -5,11 +5,12 @@ import com.server.ggini.domain.member.domain.Member;
 public record LoginResponse(
     Long memberId,
     String nickname,
+    String email,
     String accessToken,
     String refreshToken
 ) {
 
     public static LoginResponse of(Member member, TokenPairResponse tokenPairResponse) {
-        return new LoginResponse(member.getId(), member.getNickname(), tokenPairResponse.accessToken(), tokenPairResponse.refreshToken());
+        return new LoginResponse(member.getId(), member.getNickname(), member.getEmail(), tokenPairResponse.accessToken(), tokenPairResponse.refreshToken());
     }
 }
