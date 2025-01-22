@@ -8,10 +8,15 @@ public record MemberGetResponse(
         String email
 ) {
     public static MemberGetResponse of(Member member) {
+        String email = member.getEmail();
+        if (member.getOauthInfo() != null && member.getOauthInfo().getOauthEmail() != null) {
+            email = member.getOauthInfo().getOauthEmail();
+        }
+
         return new MemberGetResponse(
                 member.getId(),
                 member.getNickname(),
-                member.getEmail()
+                email
         );
     }
 }
