@@ -35,6 +35,9 @@ public enum ErrorCode {
     JOB_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 직업을 찾을 수 없습니다"),
     ONBOARD_STATUS_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 온보딩 상태를 찾을 수 없습니다. (잘못된 온보딩 상태를 입력하셨습니다)"),
 
+
+    //Restaurant
+    RESTAURANT_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 식당을 찾을 수 없습니다."),
     ;
 
     private final HttpStatus status;

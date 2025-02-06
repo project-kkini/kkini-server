@@ -8,6 +8,8 @@ import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,5 +25,14 @@ public class MemberController {
             @AuthUser Member member
             ) {
         return ResponseEntity.ok(MemberGetResponse.of(member));
+    }
+
+    @PutMapping("nickname")
+    @Operation(summary = "닉네임 변경 - 미완", description = "jwt accessToken을 통해 내 닉네임을 변경합니다.")
+    public ResponseEntity<MemberGetResponse> changeNickname(
+            @AuthUser Member member,
+            @RequestBody String nickname
+    ) {
+        return ResponseEntity.ok(null);
     }
 }
