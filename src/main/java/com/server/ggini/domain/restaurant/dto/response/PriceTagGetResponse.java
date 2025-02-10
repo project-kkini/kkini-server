@@ -7,7 +7,7 @@ public record PriceTagGetResponse(
         String text
 ) {
 
-    public static PriceTagGetResponse of(PriceTag priceTag) {
+    public static PriceTagGetResponse from(PriceTag priceTag) {
         return new PriceTagGetResponse(
                 priceTag.getId(),
                 priceTag.getText()
