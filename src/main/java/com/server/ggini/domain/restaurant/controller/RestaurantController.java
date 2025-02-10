@@ -1,7 +1,10 @@
 package com.server.ggini.domain.restaurant.controller;
 
+import com.server.ggini.domain.member.domain.Member;
 import com.server.ggini.domain.restaurant.dto.response.RestaurantGetDetailsResponse;
 import com.server.ggini.domain.restaurant.repository.RestaurantRepository;
+import com.server.ggini.domain.restaurant.service.RestaurantGetService;
+import com.server.ggini.global.annotation.AuthUser;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class RestaurantController {
 
-    private final RestaurantRepository restaurantRepository;
+    private final RestaurantRepository seoulRestaurantRepository;
+    private final RestaurantGetService restaurantGetService;
 
     @GetMapping("{seoulRestaurantId}/registered")
     @Operation(
@@ -25,14 +29,15 @@ public class RestaurantController {
     public ResponseEntity<Long> getRestaurantBySeoulRestaurantId(
             @PathVariable("seoulRestaurantId") Long seoulRestaurantId
     ) {
-        return ResponseEntity.ok(restaurantRepository.findBySeoulRestaurantIdOrThrow(seoulRestaurantId).getId());
+        return ResponseEntity.ok(seoulRestaurantRepository.findBySeoulRestaurantIdOrThrow(seoulRestaurantId).getId());
     }
 
     @GetMapping("{restaurantId}")
-    @Operation(summary = "식당 정보 상세 조회 - 미완", description = "식당 id를 통해 해당 식당을 조회합니다.")
+    @Operation(summary = "식당 정보 상세 조회", description = "식당 id를 통해 해당 식당을 조회합니다.")
     public ResponseEntity<RestaurantGetDetailsResponse> getRestaurant(
-            @PathVariable("restaurantId") Long restaurantId
-    ) {
-        return ResponseEntity.ok(null);
+            @PathVariable("restaurantId") Long restaurantId,
+            @AuthUser Member member
+            ) {
+        return ResponseEntity.ok(restaurantGetService.getRestaurant(restaurantId, member));
     }
 }

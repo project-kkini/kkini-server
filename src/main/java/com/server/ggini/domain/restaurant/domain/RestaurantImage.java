@@ -1,4 +1,4 @@
-package com.server.ggini.domain.review.domain;
+package com.server.ggini.domain.restaurant.domain;
 
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
@@ -8,11 +8,11 @@ import lombok.NoArgsConstructor;
 @Getter
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ReviewImage {
+public class RestaurantImage {
 
     private String url;
 
-    public ReviewImage(String url) {
+    public RestaurantImage(String url) {
         this.url = url;
     }
 }
