@@ -1,5 +1,6 @@
 package com.server.ggini.domain.restaurant.domain;
 
+import com.server.ggini.global.common.Coordinate;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
