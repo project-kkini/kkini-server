@@ -37,13 +37,17 @@ public class Member extends BaseEntity {
     @Embedded
     private OauthInfo oauthInfo;
 
+    @Embedded
+    private CompanyLocation companyLocation;
+
     @Builder
-    public Member(String nickname, String email, String password, MemberRole role, OauthInfo oauthInfo) {
+    public Member(String nickname, String email, String password, MemberRole role, OauthInfo oauthInfo, CompanyLocation companyLocation) {
         this.nickname = nickname;
         this.email = email;
         this.password = password;
         this.role = role;
         this.oauthInfo = oauthInfo;
+        this.companyLocation = companyLocation;
     }
 
     public boolean isMatchingPassword(String password) {
