@@ -43,6 +43,9 @@ public enum ErrorCode {
 
     //Review
     REVIEW_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "이미 리뷰를 작성하셨습니다."),
+
+    //Image
+    IMAGE_FILE_NOT_FOUND_IN_S3(HttpStatus.NOT_FOUND, "S3에 해당 이미지 파일을 찾을 수 없습니다."),
     ;
 
     private final HttpStatus status;
