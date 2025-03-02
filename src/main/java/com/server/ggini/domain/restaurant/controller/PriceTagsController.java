@@ -21,7 +21,7 @@ public class PriceTagsController {
     @Operation(summary = "가격 태그 목록 조회")
     public ResponseEntity<List<PriceTagGetResponse>> getPriceTagAll() {
         List<PriceTagGetResponse> responses = priceTagsRepository.findAll().stream()
-                .map(PriceTagGetResponse::of)
+                .map(PriceTagGetResponse::from)
                 .toList();
         return ResponseEntity.ok(responses);
     }
