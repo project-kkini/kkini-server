@@ -26,7 +26,7 @@ public class ReviewCreateService {
         priceTagRepository.existsByIdsElseThrow(request.priceTagIds());
 
         Restaurant restaurant = restaurantRepository.findByIdElseThrow(restaurantId);
-        reviewRepository.existsByReviewerIdAndRestaurantIdElseThrow(member.getId(), restaurantId);
+        reviewRepository.existsReviewInRestaurantElseThrow(member.getId(), restaurantId);
         reviewRepository.save(request.toEntity(member, restaurant, false));
 
         return restaurant.getId();

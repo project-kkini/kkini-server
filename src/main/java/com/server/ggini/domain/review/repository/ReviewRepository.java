@@ -24,7 +24,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
         return findByReviewerIdAndRestaurantId(reviewerId, restaurantId).orElse(null);
     }
 
-    default void existsByReviewerIdAndRestaurantIdElseThrow(Long reviewerId, Long restaurantId) {
+    default void existsReviewInRestaurantElseThrow(Long reviewerId, Long restaurantId) {
         if (existsByReviewerIdAndRestaurantId(reviewerId, restaurantId)) {
             throw new InvalidValueException(ErrorCode.REVIEW_ALREADY_EXISTS);
         }
