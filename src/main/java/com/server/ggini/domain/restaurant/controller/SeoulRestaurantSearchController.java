@@ -1,9 +1,14 @@
 package com.server.ggini.domain.restaurant.controller;
 
+import com.server.ggini.domain.member.domain.Member;
+import com.server.ggini.domain.restaurant.dto.response.SeoulConfirmRestaurantGetResponse;
+import com.server.ggini.domain.restaurant.service.SeoulConfirmRestaurantService;
+import com.server.ggini.global.annotation.AuthUser;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,12 +20,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class SeoulRestaurantSearchController {
 
-    @GetMapping("/search/count")
-    @Operation(summary = "추천 가능 식당 조회 - 미완", description = "식당 이름과 현재 위치로 서울시 인증 식당 DB에 저장된 식당을 조회합니다.")
-    public void getSearchCount(
-            @RequestParam(value = "name", required = false) String name,
-            @RequestParam(value = "latitude", required = false) String latitude,
-            @RequestParam(value = "longitude", required = false) String longitude
+    private final SeoulConfirmRestaurantService seoulConfirmRestaurantService;
+
+    @GetMapping("/search")
+    @Operation(summary = "추천 가능 식당 조회", description = "식당 이름과 회사 위치로 서울시 인증 식당 DB에 저장된 식당을 조회합니다.")
+    public ResponseEntity<List<SeoulConfirmRestaurantGetResponse>> findRestaurantsNearby(
+            @AuthUser Member member,
+            @RequestParam(value = "keyword", required = false) String keyword,
+            @RequestParam(value = "latitude", required = false) Double latitude,
+            @RequestParam(value = "longitude", required = false) Double longitude
     ) {
+        return ResponseEntity.ok(seoulConfirmRestaurantService.findRestaurantsNearby(member, keyword, latitude, longitude, 700));
     }
 }
