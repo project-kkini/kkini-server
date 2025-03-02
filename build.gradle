@@ -58,8 +58,11 @@ dependencies {
     implementation 'com.h2database:h2'
     testImplementation 'com.h2database:h2'
 
+    // JTS 라이브러리
     implementation 'org.json:json:20210307'
-    implementation 'org.locationtech.jts:jts-core:1.19.0'  // JTS 라이브러리
+    implementation 'org.locationtech.jts:jts-core:1.19.0'
+
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
 }
 
 tasks.named('test') {
