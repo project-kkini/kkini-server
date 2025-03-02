@@ -27,7 +27,6 @@ public class EmailPasswordSuccessHandler extends SavedRequestAwareAuthentication
         String accessToken = jwtUtil.generateAccessToken(member);
         String refreshToken = jwtUtil.generateRefreshToken(member);
         response.addHeader(AuthConstants.AUTH_HEADER, AuthConstants.TOKEN_TYPE + " " + accessToken);
-
         response.addCookie(cookieUtil.createCookie(refreshToken));
     }
 
