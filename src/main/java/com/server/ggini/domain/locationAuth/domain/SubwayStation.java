@@ -1,4 +1,4 @@
-package com.server.ggini.domain.subwayStation.domain;
+package com.server.ggini.domain.locationAuth.domain;
 
 import com.server.ggini.global.common.Coordinate;
 import jakarta.persistence.*;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class subwayStation {
+public class SubwayStation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "subway_station_id")

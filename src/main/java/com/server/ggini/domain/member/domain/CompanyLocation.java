@@ -12,4 +12,9 @@ public class CompanyLocation {
     @Embedded
     private Coordinate coordinate;
     private Long nearestStationId;
+
+    public CompanyLocation(Coordinate coordinate, Long nearestStationId) {
+        this.coordinate = coordinate;
+        this.nearestStationId = nearestStationId;
+    }
 }

@@ -3,6 +3,7 @@ package com.server.ggini.domain.member.domain;
 import com.server.ggini.domain.member.domain.nickName.Adjective;
 import com.server.ggini.domain.member.domain.nickName.Animal;
 import com.server.ggini.global.common.BaseEntity;
+import com.server.ggini.global.common.Coordinate;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -65,5 +66,10 @@ public class Member extends BaseEntity {
                 .role(MemberRole.USER)
                 .oauthInfo(oauthInfo)
                 .build();
+    }
+
+    public void updateCompanyLocation(Double latitude, Double longitude, Long stationId) {
+        Coordinate coordinate = new Coordinate(latitude, longitude);
+        this.companyLocation = new CompanyLocation(coordinate, stationId);
     }
 }
