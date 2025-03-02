@@ -50,7 +50,7 @@ class AuthControllerTest {
         @Test
         void 성공() throws Exception {
 
-            AdminLoginRequest request = new AdminLoginRequest("admin@example.com", "password123"); // DTO 객체 생성
+            AdminLoginRequest request = new AdminLoginRequest("admin1@example.com", "password123"); // DTO 객체 생성
             String requestBody = objectMapper.writeValueAsString(request);
 
             mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/auth/admin/login")

@@ -21,7 +21,7 @@ public class NeedsTagsController {
     @Operation(summary = "이런 상황에서 이 식당을 찾아요 태그 목록 조회")
     public ResponseEntity<List<NeedsTagGetResponse>> getNeedsTagsAll() {
         List<NeedsTagGetResponse> responses = needsTagsRepository.findAll().stream()
-                .map(NeedsTagGetResponse::of)
+                .map(NeedsTagGetResponse::from)
                 .toList();
         return ResponseEntity.ok(responses);
     }

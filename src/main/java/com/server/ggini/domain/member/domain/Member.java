@@ -29,6 +29,7 @@ public class Member extends BaseEntity {
 
     private String nickname;
 
+    private String profileImageUrl;
     private String email;
     private String password;
 
@@ -42,8 +43,10 @@ public class Member extends BaseEntity {
     private CompanyLocation companyLocation;
 
     @Builder
-    public Member(String nickname, String email, String password, MemberRole role, OauthInfo oauthInfo, CompanyLocation companyLocation) {
+    public Member(String nickname, String profileImageUrl, String email, String password, MemberRole role,
+                  OauthInfo oauthInfo, CompanyLocation companyLocation) {
         this.nickname = nickname;
+        this.profileImageUrl = profileImageUrl;
         this.email = email;
         this.password = password;
         this.role = role;

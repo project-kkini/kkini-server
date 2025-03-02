@@ -7,11 +7,11 @@ import org.springframework.http.HttpStatus;
 public enum ErrorCode {
 
     // Common
-    INVALID_INPUT_VALUE(HttpStatus.BAD_REQUEST, "입력값이 올바르지 않습니다"),
+    INVALID_INPUT_VALUE(HttpStatus.BAD_REQUEST, "잘못된 입력 값입니다."),
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버 오류, 관리자에게 문의하세요"),
     ENTITY_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 엔티티를 찾을 수 없습니다."),
     BAD_CREDENTIALS(HttpStatus.UNAUTHORIZED, "잘못된 인증 정보입니다"),
-
+    INVALID_LENGTH_VALUE(HttpStatus.BAD_REQUEST, "입력 값의 길이가 잘못되었습니다."),
 
     //Auth
     AUTH_NOT_FOUND(HttpStatus.UNAUTHORIZED, "시큐리티 인증 정보를 찾을 수 없습니다."),
@@ -43,8 +43,11 @@ public enum ErrorCode {
     INVALID_COORDINATES(HttpStatus.BAD_REQUEST,"사용자 위치 좌표가 유효하지 않습니다."),
 
     //Restaurant
+    SEOUL_RESTAURANT_NOT_FOUND(HttpStatus.NOT_FOUND, "서울시 인허가 식당 DB에서 해당 식당을 찾을 수 없습니다."),
     RESTAURANT_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 식당을 찾을 수 없습니다."),
 
+    //Review
+    REVIEW_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "이미 리뷰를 작성하셨습니다."),
     ;
 
     private final HttpStatus status;
