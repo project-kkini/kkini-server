@@ -1,5 +1,6 @@
 package com.server.ggini.domain.auth.controller;
 
+import com.server.ggini.domain.auth.dto.response.AccessTokenResponse;
 import com.server.ggini.domain.auth.dto.response.MemberSignUpResponse;
 import com.server.ggini.domain.auth.dto.request.AdminLoginRequest;
 import com.server.ggini.global.error.ErrorResponse;
@@ -10,6 +11,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.headers.Header;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
 
 @Tag(name = "인증", description = "소셜 로그인 인증 관련 API")
@@ -90,4 +93,38 @@ public interface AuthControllerDocs {
                     )
             })
     void adminLogin(AdminLoginRequest request);
+
+    @Operation(
+            summary = "토큰 재발급",
+            description = "리프레시 토큰을 통해 새로운 액세스 토큰을 발급하고 새로운 리프레시 토큰을 쿠키에 설정합니다.",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "토큰 재발급 성공",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = AccessTokenResponse.class)
+                            ),
+                            headers = @Header(
+                                    name = "Set-Cookie",
+                                    description = "새로운 리프레시 토큰이 담긴 HTTP Only 쿠키",
+                                    schema = @Schema(
+                                            type = "string",
+                                            example = "refreshToken=xxx; Path=/; HttpOnly; Secure; SameSite=None"
+                                    )
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "유효하지 않은 리프레시 토큰",
+                            content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "리프레시 토큰 쿠키 없음",
+                            content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+                    )
+            }
+    )
+    ResponseEntity<Void> reissueToken(HttpServletRequest request, HttpServletResponse response);
 } 
