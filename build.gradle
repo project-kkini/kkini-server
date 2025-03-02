@@ -57,6 +57,9 @@ dependencies {
     //db-h2
     implementation 'com.h2database:h2'
     testImplementation 'com.h2database:h2'
+
+    implementation 'org.json:json:20210307'
+    implementation 'org.locationtech.jts:jts-core:1.19.0'  // JTS 라이브러리
 }
 
 tasks.named('test') {

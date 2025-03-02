@@ -21,16 +21,20 @@ public class LocationAuthService {
 
     @Transactional
     public LocationAuthResponse authenticateLocation(Member member, LocationAuthRequest locationAuthRequest) {
-        // TODO: 주어진 위도, 경도가 강남/서초인지 확인
+        // 주어진 위도, 경도가 강남/서초인지 확인
+        boolean isSupportedArea = GeoJsonUtil.checkLocation(locationAuthRequest.latitude(), locationAuthRequest.longitude());
 
-        // case1) 강남, 서초라면
-        // 가장 가까운 역 찾기
-        SubwayStationDto nearestStation = subwayStationRepository.findNearestStation(
-                        locationAuthRequest.latitude(), locationAuthRequest.longitude())
-                .orElseThrow(() -> new NotFoundException(ErrorCode.SUBWAY_STATION_NOT_FOUND));
-
-        // case2) 강남, 서초가 아니라면
-        // SubwayStationDto noSupportedArea = new SubwayStationDto(NOT_SUPPORTED_AREA_STATION_ID, "지원하지 않는 지역입니다.");
+        SubwayStationDto nearestStation;
+        if (isSupportedArea) {
+            // case1) 강남, 서초라면
+            // 가장 가까운 역 찾기
+            nearestStation = subwayStationRepository.findNearestStation(
+                            locationAuthRequest.latitude(), locationAuthRequest.longitude())
+                    .orElseThrow(() -> new NotFoundException(ErrorCode.SUBWAY_STATION_NOT_FOUND));
+        }else{
+            // case2) 강남, 서초가 아니라면
+            nearestStation = new SubwayStationDto(NOT_SUPPORTED_AREA_STATION_ID, "지원하지 않는 지역입니다.");
+        }
 
         // 위치 정보 업데이트
         member.updateCompanyLocation(locationAuthRequest.latitude(), locationAuthRequest.longitude(), nearestStation.subwayStationId());

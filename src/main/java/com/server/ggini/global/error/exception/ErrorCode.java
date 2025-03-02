@@ -37,9 +37,14 @@ public enum ErrorCode {
 
     //LocationAuth
     SUBWAY_STATION_NOT_FOUND(HttpStatus.NOT_FOUND, "주변 지하철역을 찾는 과정에서 오류가 발생하였습니다."),
+    GEO_JSON_FILE_READ_ERROR(HttpStatus.BAD_REQUEST, "GeoJSON 파일을 읽는 중 오류가 발생했습니다."),
+    GEO_JSON_PARSING_ERROR(HttpStatus.BAD_REQUEST, "GeoJSON 데이터를 파싱하는 중 오류가 발생했습니다."),
+    INVALID_GEOMETRY_TYPE(HttpStatus.BAD_REQUEST, "GeoJSON Geometry 타입이 유효하지 않습니다."),
+    INVALID_COORDINATES(HttpStatus.BAD_REQUEST,"사용자 위치 좌표가 유효하지 않습니다."),
 
     //Restaurant
     RESTAURANT_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 식당을 찾을 수 없습니다."),
+
     ;
 
     private final HttpStatus status;
