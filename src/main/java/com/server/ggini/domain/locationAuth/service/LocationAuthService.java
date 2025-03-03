@@ -1,5 +1,6 @@
 package com.server.ggini.domain.locationAuth.service;
 
+import com.server.ggini.domain.locationAuth.dto.IsSupportedAndSubwayStationDto;
 import com.server.ggini.domain.locationAuth.dto.SubwayStationDto;
 import com.server.ggini.domain.locationAuth.dto.request.LocationAuthRequest;
 import com.server.ggini.domain.locationAuth.dto.response.LocationAuthResponse;
@@ -21,26 +22,35 @@ public class LocationAuthService {
 
     @Transactional
     public LocationAuthResponse authenticateLocation(Member member, LocationAuthRequest locationAuthRequest) {
-        // 주어진 위도, 경도가 강남/서초인지 확인
-        boolean isSupportedArea = GeoJsonUtil.checkLocation(locationAuthRequest.latitude(), locationAuthRequest.longitude());
+        // 지원하는 지역인지, 맞다면 가까운역 찾기
+        IsSupportedAndSubwayStationDto isSupportedAndSubwayStationDto = findSubwayStationByLocation(
+                locationAuthRequest.latitude(),
+                locationAuthRequest.longitude());
 
-        SubwayStationDto nearestStation;
-        if (isSupportedArea) {
-            // case1) 강남, 서초라면
-            // 가장 가까운 역 찾기
-            nearestStation = subwayStationRepository.findNearestStation(
-                            locationAuthRequest.latitude(), locationAuthRequest.longitude())
-                    .orElseThrow(() -> new NotFoundException(ErrorCode.SUBWAY_STATION_NOT_FOUND));
-        }else{
-            // case2) 강남, 서초가 아니라면
-            nearestStation = new SubwayStationDto(NOT_SUPPORTED_AREA_STATION_ID, "지원하지 않는 지역입니다.");
-        }
-
-        // 위치 정보 업데이트
-        member.updateCompanyLocation(locationAuthRequest.latitude(), locationAuthRequest.longitude(), nearestStation.subwayStationId());
+        // 회원 위치 정보 업데이트
+        member.updateCompanyLocation(locationAuthRequest.latitude(), locationAuthRequest.longitude(), isSupportedAndSubwayStationDto.subwayStation().subwayStationId());
         memberRepository.save(member);
 
-        // 응답 생성
-        return new LocationAuthResponse(isSupportedArea, nearestStation.subwayStationName());
+        return new LocationAuthResponse(
+                isSupportedAndSubwayStationDto.isSupportedArea(),
+                isSupportedAndSubwayStationDto.subwayStation().subwayStationName()
+        );
     }
+
+    private IsSupportedAndSubwayStationDto findSubwayStationByLocation(double latitude, double longitude) {
+        // 강남, 서초지역인지 확인
+        boolean isSupportedArea = GeoJsonUtil.checkLocation(latitude, longitude);
+
+        SubwayStationDto subwayStation;
+        if (isSupportedArea) {
+            // 강남/서초 지역이라면 가장 가까운 역 조회
+            subwayStation = subwayStationRepository.findNearestStation(latitude, longitude)
+                    .orElseThrow(() -> new NotFoundException(ErrorCode.SUBWAY_STATION_NOT_FOUND));
+        } else {
+            subwayStation = new SubwayStationDto(NOT_SUPPORTED_AREA_STATION_ID, "지원하지 않는 지역입니다.");
+        }
+
+        return new IsSupportedAndSubwayStationDto(isSupportedArea, subwayStation);
+    }
+
 }
