@@ -38,7 +38,7 @@ public class LocationAuthService {
 
         // 위치 정보 업데이트
         member.updateCompanyLocation(locationAuthRequest.latitude(), locationAuthRequest.longitude(), nearestStation.subwayStationId());
-        memberRepository.save(member); // TODO: 우리가 커스텀 어노테이션으로 받아오는 Member는 영속성 컨텍스트가 아니죠?
+        memberRepository.save(member);
 
         // 응답 생성
         return new LocationAuthResponse(isSupportedArea, nearestStation.subwayStationName());
