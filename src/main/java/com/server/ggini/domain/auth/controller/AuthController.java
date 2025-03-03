@@ -39,16 +39,17 @@ public class AuthController implements AuthControllerDocs {
     @PostMapping("/oauth/social-login")
     public ResponseEntity<MemberSignUpResponse> socialLogin(
             @RequestHeader("social_access_token") String accessToken,
-            @RequestParam("provider") String provider
+            @RequestParam("provider") String provider,
+            HttpServletResponse response
     ) {
-        LoginResponse response = authService.socialLogin(accessToken, provider);
+        LoginResponse loginResponse = authService.socialLogin(accessToken, provider);
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", response.accessToken());
+        headers.set("Authorization", loginResponse.accessToken());
         
-        Cookie refreshTokenCookie = cookieUtil.createCookie(response.refreshToken());
-        headers.add(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString());
+        Cookie refreshTokenCookie = cookieUtil.createCookie(loginResponse.refreshToken());
+        response.addCookie(refreshTokenCookie);
 
-        return new ResponseEntity<>(MemberSignUpResponse.of(response), headers, HttpStatus.OK);
+        return new ResponseEntity<>(MemberSignUpResponse.of(loginResponse), headers, HttpStatus.OK);
     }
 
     @Override

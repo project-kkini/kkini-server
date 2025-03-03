@@ -55,7 +55,8 @@ public interface AuthControllerDocs {
     )
     ResponseEntity<MemberSignUpResponse> socialLogin(
             String accessToken,
-            String provider
+            String provider,
+            HttpServletResponse response
     );
 
     @Operation(
