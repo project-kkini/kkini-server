@@ -39,7 +39,7 @@ public class SecurityConfig {
     private final JwtUtil jwtUtil;
 
     private String[] allowUrls = {"/", "/favicon.ico",
-        "/api/v1/auth/oauth/**", "/swagger-ui/**", "/v3/**"};
+        "/api/v1/auth/oauth/**", "/swagger-ui/**", "/v3/**", "/h2-console/**",};
 
     @Value("${cors-allowed-origins}")
     private List<String> corsAllowedOrigins;
