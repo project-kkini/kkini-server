@@ -20,8 +20,8 @@ public class ReviewImageUploadController {
     private final ReviewImageUploadService reviewImageUploadService;
 
     @Operation(summary = "이미지 업로드를 위한 presigned URL 발급", description = "url의 ? 쿼리 파라미터전까지가 이미지의 static url입니다.")
-    @GetMapping("/problem/{restaurantId}/presigned-url")
-    public ResponseEntity<PresignedUrlResponse> getProblemImagePresignedUrl(
+    @GetMapping("/review/{restaurantId}/presigned-url")
+    public ResponseEntity<PresignedUrlResponse> getReviewImagePresignedUrl(
             @PathVariable("restaurantId") Long restaurantId
     ) {
         String presignedUrl = reviewImageUploadService.generateReviewImagePresignedUrl(restaurantId);
