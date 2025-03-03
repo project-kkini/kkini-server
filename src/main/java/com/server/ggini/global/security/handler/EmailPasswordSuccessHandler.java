@@ -2,9 +2,12 @@ package com.server.ggini.global.security.handler;
 
 import com.server.ggini.domain.member.domain.Member;
 import com.server.ggini.global.security.AuthConstants;
+import com.server.ggini.global.security.utils.CookieUtil;
 import com.server.ggini.global.security.utils.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
@@ -14,6 +17,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class EmailPasswordSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
+    private final CookieUtil cookieUtil;
     private final JwtUtil jwtUtil;
 
     @Override
@@ -23,7 +27,7 @@ public class EmailPasswordSuccessHandler extends SavedRequestAwareAuthentication
         String accessToken = jwtUtil.generateAccessToken(member);
         String refreshToken = jwtUtil.generateRefreshToken(member);
         response.addHeader(AuthConstants.AUTH_HEADER, AuthConstants.TOKEN_TYPE + " " + accessToken);
-        response.addHeader(AuthConstants.REFRESH_TOKEN_HEADER, AuthConstants.TOKEN_TYPE + " " + refreshToken);
+        response.addCookie(cookieUtil.createCookie(refreshToken));
     }
 
 }

@@ -7,7 +7,7 @@ public record NeedsTagGetResponse(
         String text
 ) {
 
-    public static NeedsTagGetResponse of(NeedsTag needsTag) {
+    public static NeedsTagGetResponse from(NeedsTag needsTag) {
         return new NeedsTagGetResponse(
                 needsTag.getId(),
                 needsTag.getText()

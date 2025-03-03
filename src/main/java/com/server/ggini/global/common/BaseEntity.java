@@ -3,6 +3,7 @@ package com.server.ggini.global.common;
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.PrePersist;
 import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,11 +25,10 @@ public abstract class BaseEntity {
     private LocalDateTime createdDate;
 
     @LastModifiedDate
-    @Column(name = "update_at")
+    @Column(name = "updated_at")
     private LocalDateTime updatedDate;
 
     @Column(name = "deleted")
     @Builder.Default
-    private boolean deleted = false;
-
+    private Boolean deleted = false;
 }

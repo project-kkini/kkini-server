@@ -3,6 +3,7 @@ package com.server.ggini.domain.restaurant.controller;
 import com.server.ggini.domain.restaurant.dto.response.PriceTagGetResponse;
 import com.server.ggini.domain.restaurant.repository.PriceTagsRepository;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "식당", description = "식당 관련 API")
 @RestController
 @RequestMapping("/api/v1/priceTags")
 @RequiredArgsConstructor
@@ -21,7 +23,7 @@ public class PriceTagsController {
     @Operation(summary = "가격 태그 목록 조회")
     public ResponseEntity<List<PriceTagGetResponse>> getPriceTagAll() {
         List<PriceTagGetResponse> responses = priceTagsRepository.findAll().stream()
-                .map(PriceTagGetResponse::of)
+                .map(PriceTagGetResponse::from)
                 .toList();
         return ResponseEntity.ok(responses);
     }

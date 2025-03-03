@@ -23,5 +23,10 @@ management:
     health:
       enabled: true
 
-
+swagger:
+  servers:
+    - url: http://13.209.129.138:8080
+      description: "kkini dev http 서버입니다."
+    - url: http://localhost:8080
+      description: "kkini local 서버입니다."
 

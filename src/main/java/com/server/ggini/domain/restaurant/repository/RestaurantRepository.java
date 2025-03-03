@@ -14,4 +14,8 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
         return findBySeoulRestaurantId(seoulRestaurantId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.RESTAURANT_NOT_FOUND));
     }
+
+    default Restaurant findByIdElseThrow(Long id) {
+        return findById(id).orElseThrow(() -> new NotFoundException(ErrorCode.RESTAURANT_NOT_FOUND));
+    }
 }
