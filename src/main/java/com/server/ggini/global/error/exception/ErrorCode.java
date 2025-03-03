@@ -12,6 +12,7 @@ public enum ErrorCode {
     ENTITY_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 엔티티를 찾을 수 없습니다."),
     BAD_CREDENTIALS(HttpStatus.UNAUTHORIZED, "잘못된 인증 정보입니다"),
     INVALID_LENGTH_VALUE(HttpStatus.BAD_REQUEST, "입력 값의 길이가 잘못되었습니다."),
+    BLANK_INPUT_VALUE(HttpStatus.BAD_REQUEST, "입력 값이 비어있습니다."),
 
     //Auth
     AUTH_NOT_FOUND(HttpStatus.UNAUTHORIZED, "시큐리티 인증 정보를 찾을 수 없습니다."),
@@ -48,6 +49,9 @@ public enum ErrorCode {
 
     //Review
     REVIEW_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "이미 리뷰를 작성하셨습니다."),
+
+    //Image
+    IMAGE_FILE_NOT_FOUND_IN_S3(HttpStatus.NOT_FOUND, "S3에 해당 이미지 파일을 찾을 수 없습니다."),
     ;
 
     private final HttpStatus status;

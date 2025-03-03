@@ -8,6 +8,7 @@ spring:
       prod: "prod, datasource"
     include:
       - security
+      - aws
 
 logging:
   level:
