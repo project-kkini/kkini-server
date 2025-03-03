@@ -34,41 +34,22 @@ public class GeoJsonUtil {
             // 사용자의 위치를 Point 객체로 만들기
             Point userPoint = geometryFactory.createPoint(new Coordinate(userLongitude, userLatitude));
 
-            // 강남구와 서초구의 좌표를 단순히 비교
+            // 강남구와 서초구의 좌표를 확인
             for (int i = 0; i < features.length(); i++) {
                 JSONObject feature = features.getJSONObject(i);
                 JSONObject geometry = feature.getJSONObject("geometry");
                 String type = geometry.getString("type");
+                JSONArray coordinates = geometry.getJSONArray("coordinates");
 
-                // Geometry가 Polygon 또는 MultiPolygon일 때만 처리
-                if ("Polygon".equals(type) || "MultiPolygon".equals(type)) {
-                    // GeoJSON 좌표 추출
-                    JSONArray coordinates = geometry.getJSONArray("coordinates");
-
-                    // Polygon 처리
-                    if ("Polygon".equals(type)) {
-                        // 첫 번째 배열의 좌표로 Polygon 생성
-                        JSONArray polygonCoordinates = coordinates.getJSONArray(0);
-                        LinearRing linearRing = createLinearRing(polygonCoordinates);
-                        Polygon polygon = new Polygon(linearRing, null, geometryFactory);
-
-                        // 해당 Polygon이 사용자의 위치를 포함하는지 확인
-                        if (polygon.contains(userPoint)) {
-                            return true;  // 사용자가 위치한 구를 반환
-                        }
+                // Geometry 타입에 따라 처리
+                if ("Polygon".equals(type)) {
+                    if (isUserPointContainInPolygon(userPoint, coordinates.getJSONArray(0))) {
+                        return true;
                     }
-                    // MultiPolygon 처리
-                    else if ("MultiPolygon".equals(type)) {
-                        // 여러 개의 Polygon을 처리
-                        for (int j = 0; j < coordinates.length(); j++) {
-                            JSONArray polygonCoordinates = coordinates.getJSONArray(j).getJSONArray(0);
-                            LinearRing linearRing = createLinearRing(polygonCoordinates);
-                            Polygon polygon = new Polygon(linearRing, null, geometryFactory);
-
-                            // 해당 Polygon이 사용자의 위치를 포함하는지 확인
-                            if (polygon.contains(userPoint)) {
-                                return true;  // 사용자가 위치한 구를 반환
-                            }
+                } else if ("MultiPolygon".equals(type)) {
+                    for (int j = 0; j < coordinates.length(); j++) {
+                        if (isUserPointContainInPolygon(userPoint, coordinates.getJSONArray(j).getJSONArray(0))) {
+                            return true;
                         }
                     }
                 }
@@ -82,8 +63,19 @@ public class GeoJsonUtil {
     }
 
     /**
+     * 사용자 위치가 특정 폴리곤 내에 포함되어 있는지 확인하는 메서드
+     * @param userPoint 사용자 위치 좌표
+     * @param polygonCoordinates 폴리곤 좌표 배열
+     * @return 폴리곤 내에 사용자 위치가 포함되는지 여부
+     */
+    private static boolean isUserPointContainInPolygon(Point userPoint, JSONArray polygonCoordinates) {
+        LinearRing linearRing = createLinearRing(polygonCoordinates);
+        Polygon polygon = new Polygon(linearRing, null, geometryFactory);
+        return polygon.contains(userPoint);
+    }
+
+    /**
      * GeoJSON 파일을 읽어서 문자열로 반환하는 메서드
-     *
      * @return GeoJSON 데이터 문자열
      */
     private static String readGeoJsonFile() {
