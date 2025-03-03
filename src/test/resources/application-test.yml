@@ -23,3 +23,17 @@ kakao:
 cors-allowed-origins:
   http://localhost:8080,
   http://localhost:3000,
+
+cloud:
+  aws:
+    s3:
+      bucket: test
+      signature-version: AWS4-HMAC-SHA256
+    credentials:
+      access-key: test
+      secret-key: test
+    region:
+      static: test
+      auto: false
+    stack:
+      auto: false

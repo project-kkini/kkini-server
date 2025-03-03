@@ -1,6 +1,7 @@
 package com.server.ggini.domain.auth.controller;
 
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.cookie;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -58,7 +59,11 @@ class AuthControllerTest {
                             .content(requestBody))
                     .andExpect(status().isOk()) // 200 응답 확인
                     .andExpect(header().exists("Authorization"))
-                    .andExpect(header().exists("RefreshToken"));
+                    .andExpect(cookie().exists("refreshToken")) // 리프레시 토큰 쿠키 존재 확인
+                    .andExpect(cookie().httpOnly("refreshToken", true)) // HTTP Only 설정 확인
+                    .andExpect(cookie().secure("refreshToken", true)) // Secure 설정 확인
+                    .andExpect(cookie().path("refreshToken", "/")) // 쿠키 경로 확인
+                    .andExpect(cookie().attribute("refreshToken", "SameSite", "None"));
 
         }
 
