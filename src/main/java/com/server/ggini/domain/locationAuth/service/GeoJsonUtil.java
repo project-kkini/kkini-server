@@ -25,7 +25,7 @@ public class GeoJsonUtil {
     public static boolean checkLocation(double userLatitude, double userLongitude) {
         try {
             // GeoJSON 파일에서 데이터를 읽어오기
-            String geoJsonData = readGeoJsonFile(GEO_JSON_FILE_PATH);
+            String geoJsonData = readGeoJsonFile();
 
             // GeoJSON 데이터를 JSONObject로 파싱
             JSONObject geoJsonObject = new JSONObject(geoJsonData);
@@ -73,8 +73,6 @@ public class GeoJsonUtil {
                     }
                 }
             }
-        }  catch (IOException e) {
-            throw new BusinessException(ErrorCode.GEO_JSON_FILE_READ_ERROR);
         } catch (JSONException e) {
             throw new BusinessException(ErrorCode.GEO_JSON_PARSING_ERROR);
         } catch (Exception e) {
@@ -85,17 +83,20 @@ public class GeoJsonUtil {
 
     /**
      * GeoJSON 파일을 읽어서 문자열로 반환하는 메서드
-     * @param geoJsonFilePath GeoJSON 파일 경로
+     *
      * @return GeoJSON 데이터 문자열
      */
-    private static String readGeoJsonFile(String geoJsonFilePath) throws IOException {
-        FileReader fileReader = new FileReader(geoJsonFilePath);
+    private static String readGeoJsonFile() {
         StringBuilder geoJsonData = new StringBuilder();
-        int c;
-        while ((c = fileReader.read()) != -1) {
-            geoJsonData.append((char) c);
+
+        try (FileReader fileReader = new FileReader(GeoJsonUtil.GEO_JSON_FILE_PATH)) {
+            int c;
+            while ((c = fileReader.read()) != -1) {
+                geoJsonData.append((char) c);
+            }
+        } catch (IOException e) {
+            throw new BusinessException(ErrorCode.GEO_JSON_FILE_READ_ERROR);
         }
-        fileReader.close();
         return geoJsonData.toString();
     }
 
