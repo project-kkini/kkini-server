@@ -66,7 +66,7 @@ class LocationAuthControllerTest {
                         .content(objectMapper.writeValueAsString(request)))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.isSupportedArea").value(true))
+                .andExpect(jsonPath("$.subwayStationId").value(1L))
                 .andExpect(jsonPath("$.subwayStationName").value("강남역"));
     }
 
