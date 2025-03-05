@@ -75,7 +75,7 @@ class LocationAuthServiceTest {
             LocationAuthResponse response = locationAuthService.authenticateLocation(mockMember, supportedAreaRequest);
 
             // Then
-            assertThat(response.isSupportedArea()).isTrue();
+            assertThat(response.subwayStationId()).isNotEqualTo(-1);
             assertThat(response.subwayStationName()).isEqualTo("강남역");
 
             // memberRepository.save()가 호출되었는지 확인
@@ -102,7 +102,7 @@ class LocationAuthServiceTest {
             LocationAuthResponse response = locationAuthService.authenticateLocation(mockMember, unsupportedAreaRequest);
 
             // Then
-            assertThat(response.isSupportedArea()).isFalse();
+            assertThat(response.subwayStationId()).isEqualTo(-1);
             assertThat(response.subwayStationName()).isEqualTo("지원하지 않는 지역입니다.");
 
             // memberRepository.save()가 호출되었는지 확인

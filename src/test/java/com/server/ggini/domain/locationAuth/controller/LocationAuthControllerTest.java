@@ -54,7 +54,7 @@ class LocationAuthControllerTest {
         double latitude = 37.4979;  // 강남 지역 위도
         double longitude = 127.0276; // 강남 지역 경도
         LocationAuthRequest request = new LocationAuthRequest(latitude, longitude);
-        LocationAuthResponse response = new LocationAuthResponse(true, "강남역");
+        LocationAuthResponse response = new LocationAuthResponse("강남역");
 
         // when
         given(locationAuthService.authenticateLocation(any(Member.class), any(LocationAuthRequest.class)))
