@@ -32,7 +32,7 @@ public class SeoulConfirmRestaurantService {
         }
 
         // 2. 반경 외부에 음식점의 존재 여부만 간단히 확인
-        boolean existsAny = seoulConfirmRestaurantRepository.existsRestaurantOutsideRadius(searchKeyword, latitude, longitude, radius);
+        boolean existsAny = seoulConfirmRestaurantRepository.existsRestaurantOutsideRadius(searchKeyword, latitude, longitude, radius) == 1;
 
         // 검색어와 일치하는 음식점은 있지만 반경 내에 없는 경우
         if (existsAny) {

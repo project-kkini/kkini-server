@@ -40,7 +40,7 @@ public interface SeoulConfirmRestaurantRepository extends JpaRepository<SeoulCon
         value = "SELECT EXISTS(SELECT 1 FROM seoul_confirm_restaurant " +
             "WHERE name LIKE CONCAT('%', :searchKeyword, '%') " +
             "AND ST_Distance_Sphere(POINT(longitude, latitude), POINT(:userLng, :userLat)) > :radius)")
-    boolean existsRestaurantOutsideRadius(
+    Long existsRestaurantOutsideRadius(
         @Param("searchKeyword") String searchKeyword,
         @Param("userLat") double latitude,
         @Param("userLng") double longitude,
