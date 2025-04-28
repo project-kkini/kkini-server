@@ -4,6 +4,6 @@ public record SeoulConfirmRestaurantGetResponse(
         Long id,
         String name,
         String roadAddress,
-        Long distance
+		Double distance // Long -> argument type mismatch
 ) {
 }
