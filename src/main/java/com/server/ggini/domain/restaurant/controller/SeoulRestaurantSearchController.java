@@ -24,7 +24,8 @@ public class SeoulRestaurantSearchController {
     private final SeoulConfirmRestaurantService seoulConfirmRestaurantService;
 
     @GetMapping("/search")
-    @Operation(summary = "추천 가능 식당 조회", description = "식당 이름과 회사 위치로 서울시 인증 식당 DB에 저장된 식당을 조회합니다.")
+    @Operation(summary = "추천 가능 식당 조회", description = "식당 이름과 회사 위치로 서울시 인증 식당 DB에 저장된 식당을 조회합니다."
+        + "status = (FOUND_WITHIN_RADIUS/ FOUND_OUTSIDE_RADIUS / NOT_FOUND)")
     public ResponseEntity<RestaurantsNearbyGetResponse> findRestaurantsNearby(
             @AuthUser Member member,
             @RequestParam(value = "keyword", required = false) String keyword,
