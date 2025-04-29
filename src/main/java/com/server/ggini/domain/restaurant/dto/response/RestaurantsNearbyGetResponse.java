@@ -4,7 +4,9 @@ import java.util.List;
 
 public record RestaurantsNearbyGetResponse(
 	SearchNearbyResultType status,
-	List<SeoulConfirmRestaurantGetResponse> restaurants
+	List<SeoulConfirmRestaurantGetResponse> restaurants,
+	Integer page,
+	Boolean hasNext
 ) {
 	// 상태 타입 열거형
 	public enum SearchNearbyResultType {

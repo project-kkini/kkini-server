@@ -6,28 +6,34 @@ import com.server.ggini.domain.restaurant.dto.response.SeoulConfirmRestaurantGet
 import com.server.ggini.domain.restaurant.repository.RestaurantRepository;
 import com.server.ggini.domain.restaurant.repository.SeoulConfirmRestaurantRepository;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class SeoulConfirmRestaurantService {
     private final SeoulConfirmRestaurantRepository seoulConfirmRestaurantRepository;
 
-    public RestaurantsNearbyGetResponse findRestaurantsNearby(Member member, String keyword, Double latitude, Double longitude, int radius) {
+    public RestaurantsNearbyGetResponse findRestaurantsNearby(Member member, String keyword, Double latitude, Double longitude, int radius, int page) {
         String searchKeyword = (keyword == null) ? "" : keyword;
 
         // 1. 반경 내 음식점 조회
-        List<SeoulConfirmRestaurantGetResponse> restaurantsNearby = seoulConfirmRestaurantRepository.findRestaurantsByNameAndLocation(
-            searchKeyword, latitude, longitude, radius);
+        Pageable pageable = PageRequest.of(page, 20);
+        Slice<SeoulConfirmRestaurantGetResponse> restaurantsNearby = seoulConfirmRestaurantRepository.findRestaurantsByNameAndLocation(
+            searchKeyword, latitude, longitude, radius, pageable);
 
         // 반경 내에 음식점이 있는 경우
         if (!restaurantsNearby.isEmpty()) {
             return new RestaurantsNearbyGetResponse(
                 RestaurantsNearbyGetResponse.SearchNearbyResultType.FOUND_WITHIN_RADIUS,
-                restaurantsNearby
+                restaurantsNearby.getContent(),
+                restaurantsNearby.getNumber(),
+                restaurantsNearby.hasNext()
             );
         }
 
@@ -38,14 +44,18 @@ public class SeoulConfirmRestaurantService {
         if (existsAny) {
             return new RestaurantsNearbyGetResponse(
                 RestaurantsNearbyGetResponse.SearchNearbyResultType.FOUND_OUTSIDE_RADIUS,
-                Collections.emptyList()
+                Collections.emptyList(),
+                null,
+                null
             );
         }
 
         // 3. 검색어와 일치하는 음식점이 없는 경우
         return new RestaurantsNearbyGetResponse(
             RestaurantsNearbyGetResponse.SearchNearbyResultType.NOT_FOUND,
-            Collections.emptyList()
+            Collections.emptyList(),
+            null,
+            null
         );
     }
 }

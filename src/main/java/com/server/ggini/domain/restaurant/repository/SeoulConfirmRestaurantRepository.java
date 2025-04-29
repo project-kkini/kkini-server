@@ -4,11 +4,12 @@ import com.server.ggini.domain.restaurant.domain.SeoulConfirmRestaurant;
 import com.server.ggini.domain.restaurant.dto.response.SeoulConfirmRestaurantGetResponse;
 import com.server.ggini.global.error.exception.ErrorCode;
 import com.server.ggini.global.error.exception.NotFoundException;
+
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-
-import java.util.List;
 
 public interface SeoulConfirmRestaurantRepository extends JpaRepository<SeoulConfirmRestaurant, Long> {
 
@@ -27,12 +28,13 @@ public interface SeoulConfirmRestaurantRepository extends JpaRepository<SeoulCon
                     "CASE " +
                     "    WHEN name LIKE CONCAT(:searchKeyword, '%') THEN 1 " +
                     "    WHEN name LIKE CONCAT('%', :searchKeyword, '%') THEN 2 " +
-                    "END, name")
-    List<SeoulConfirmRestaurantGetResponse> findRestaurantsByNameAndLocation(
+                    "END, name ")
+    Slice<SeoulConfirmRestaurantGetResponse> findRestaurantsByNameAndLocation(
             @Param("searchKeyword") String searchKeyword,
             @Param("userLat") double latitude,
             @Param("userLng") double longitude,
-            @Param("radius") double radius);
+            @Param("radius") double radius,
+            Pageable pageable);
 
 
     // 700m 밖의 음식점이 존재하는지 확인

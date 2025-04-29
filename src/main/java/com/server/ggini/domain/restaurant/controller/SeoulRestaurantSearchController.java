@@ -30,9 +30,10 @@ public class SeoulRestaurantSearchController {
             @AuthUser Member member,
             @RequestParam(value = "keyword", required = false) String keyword,
             @RequestParam(value = "latitude", required = false) Double latitude,
-            @RequestParam(value = "longitude", required = false) Double longitude
+            @RequestParam(value = "longitude", required = false) Double longitude,
+            @RequestParam(value = "page", required = false, defaultValue = "0") Integer page
     ) {
         // TODO: 회사 위치 매개변수로 안 받고, 테이블에 저장되어있는 거에서 빼서 쓰기
-        return ResponseEntity.ok(seoulConfirmRestaurantService.findRestaurantsNearby(member, keyword, latitude, longitude, 700));
+        return ResponseEntity.ok(seoulConfirmRestaurantService.findRestaurantsNearby(member, keyword, latitude, longitude, 700, page));
     }
 }
