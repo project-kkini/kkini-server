@@ -1,10 +1,13 @@
 package com.server.ggini.domain.restaurant.service;
 
+import com.server.ggini.domain.member.domain.CompanyLocation;
 import com.server.ggini.domain.member.domain.Member;
 import com.server.ggini.domain.restaurant.dto.response.RestaurantsNearbyGetResponse;
 import com.server.ggini.domain.restaurant.dto.response.SeoulConfirmRestaurantGetResponse;
-import com.server.ggini.domain.restaurant.repository.RestaurantRepository;
 import com.server.ggini.domain.restaurant.repository.SeoulConfirmRestaurantRepository;
+import com.server.ggini.global.error.exception.ErrorCode;
+import com.server.ggini.global.error.exception.NotFoundException;
+
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.domain.PageRequest;
@@ -19,13 +22,20 @@ import java.util.Collections;
 public class SeoulConfirmRestaurantService {
     private final SeoulConfirmRestaurantRepository seoulConfirmRestaurantRepository;
 
-    public RestaurantsNearbyGetResponse findRestaurantsNearby(Member member, String keyword, Double latitude, Double longitude, int radius, int page) {
+    public RestaurantsNearbyGetResponse findRestaurantsNearby(Member member, String keyword, int radius, int page) {
+        CompanyLocation companyLocation = member.getCompanyLocation();
+        if(companyLocation == null) {
+            throw new NotFoundException(ErrorCode.COMPANY_LOCATION_NOT_REGISTERED);
+        }
+        double latitude = companyLocation.getCoordinate().getLatitude();
+        double longitude = companyLocation.getCoordinate().getLongitude();
+
         String searchKeyword = (keyword == null) ? "" : keyword;
 
         // 1. 반경 내 음식점 조회
         Pageable pageable = PageRequest.of(page, 20);
         Slice<SeoulConfirmRestaurantGetResponse> restaurantsNearby = seoulConfirmRestaurantRepository.findRestaurantsByNameAndLocation(
-            searchKeyword, latitude, longitude, radius, pageable);
+            searchKeyword, latitude , longitude, radius, pageable);
 
         // 반경 내에 음식점이 있는 경우
         if (!restaurantsNearby.isEmpty()) {

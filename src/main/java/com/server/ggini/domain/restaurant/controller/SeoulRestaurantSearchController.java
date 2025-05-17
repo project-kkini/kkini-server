@@ -7,7 +7,6 @@ import com.server.ggini.domain.restaurant.service.SeoulConfirmRestaurantService;
 import com.server.ggini.global.annotation.AuthUser;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,15 +24,12 @@ public class SeoulRestaurantSearchController {
 
     @GetMapping("/search")
     @Operation(summary = "추천 가능 식당 조회", description = "식당 이름과 회사 위치로 서울시 인증 식당 DB에 저장된 식당을 조회합니다."
-        + "status = (FOUND_WITHIN_RADIUS/ FOUND_OUTSIDE_RADIUS / NOT_FOUND)")
+        + "status = (FOUND_WITHIN_RADIUS : 700m 이내에 음식점이 있는 경우 / FOUND_OUTSIDE_RADIUS: 음식점은 있지만 700m 이내에 없는 경우 / NOT_FOUND: 검색어와 일치하는 음식점이 없는 경우)")
     public ResponseEntity<RestaurantsNearbyGetResponse> findRestaurantsNearby(
             @AuthUser Member member,
             @RequestParam(value = "keyword", required = false) String keyword,
-            @RequestParam(value = "latitude", required = false) Double latitude,
-            @RequestParam(value = "longitude", required = false) Double longitude,
             @RequestParam(value = "page", required = false, defaultValue = "0") Integer page
     ) {
-        // TODO: 회사 위치 매개변수로 안 받고, 테이블에 저장되어있는 거에서 빼서 쓰기
-        return ResponseEntity.ok(seoulConfirmRestaurantService.findRestaurantsNearby(member, keyword, latitude, longitude, 700, page));
+        return ResponseEntity.ok(seoulConfirmRestaurantService.findRestaurantsNearby(member, keyword, 700, page));
     }
 }

@@ -45,6 +45,7 @@ public enum ErrorCode {
     INVALID_COORDINATES(HttpStatus.BAD_REQUEST,"사용자 위치 좌표가 유효하지 않습니다."),
 
     //Restaurant
+    COMPANY_LOCATION_NOT_REGISTERED(HttpStatus.NOT_FOUND, "위치 인증 후 맛집 검색이 가능합니다."),
     SEOUL_RESTAURANT_NOT_FOUND(HttpStatus.NOT_FOUND, "서울시 인허가 식당 DB에서 해당 식당을 찾을 수 없습니다."),
     RESTAURANT_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 식당을 찾을 수 없습니다."),
 
@@ -52,8 +53,7 @@ public enum ErrorCode {
     REVIEW_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "이미 리뷰를 작성하셨습니다."),
 
     //Image
-    IMAGE_FILE_NOT_FOUND_IN_S3(HttpStatus.NOT_FOUND, "S3에 해당 이미지 파일을 찾을 수 없습니다."),
-    ;
+    IMAGE_FILE_NOT_FOUND_IN_S3(HttpStatus.NOT_FOUND, "S3에 해당 이미지 파일을 찾을 수 없습니다.");
 
     private final HttpStatus status;
     private final String message;

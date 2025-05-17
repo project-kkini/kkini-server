@@ -4,8 +4,10 @@ import com.server.ggini.global.common.Coordinate;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Embedded;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Getter
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CompanyLocation {
