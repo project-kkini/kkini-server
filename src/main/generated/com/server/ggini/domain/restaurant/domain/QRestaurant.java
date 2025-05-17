@@ -26,7 +26,7 @@ public class QRestaurant extends EntityPathBase<Restaurant> {
 
     public final QAddress address;
 
-    public final QCoordinate coordinate;
+    public final com.server.ggini.global.common.QCoordinate coordinate;
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdDate = _super.createdDate;
@@ -70,7 +70,7 @@ public class QRestaurant extends EntityPathBase<Restaurant> {
     public QRestaurant(Class<? extends Restaurant> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.address = inits.isInitialized("address") ? new QAddress(forProperty("address")) : null;
-        this.coordinate = inits.isInitialized("coordinate") ? new QCoordinate(forProperty("coordinate")) : null;
+        this.coordinate = inits.isInitialized("coordinate") ? new com.server.ggini.global.common.QCoordinate(forProperty("coordinate")) : null;
         this.menuCategory = inits.isInitialized("menuCategory") ? new QCategory(forProperty("menuCategory")) : null;
     }
 

@@ -24,6 +24,8 @@ public class QMember extends EntityPathBase<Member> {
 
     public final com.server.ggini.global.common.QBaseEntity _super = new com.server.ggini.global.common.QBaseEntity(this);
 
+    public final QCompanyLocation companyLocation;
+
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdDate = _super.createdDate;
 
@@ -65,6 +67,7 @@ public class QMember extends EntityPathBase<Member> {
 
     public QMember(Class<? extends Member> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
+        this.companyLocation = inits.isInitialized("companyLocation") ? new QCompanyLocation(forProperty("companyLocation"), inits.get("companyLocation")) : null;
         this.oauthInfo = inits.isInitialized("oauthInfo") ? new QOauthInfo(forProperty("oauthInfo")) : null;
     }
 

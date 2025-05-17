@@ -1,4 +1,4 @@
-package com.server.ggini.domain.restaurant.domain;
+package com.server.ggini.global.common;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -15,7 +15,7 @@ import com.querydsl.core.types.Path;
 @Generated("com.querydsl.codegen.DefaultEmbeddableSerializer")
 public class QCoordinate extends BeanPath<Coordinate> {
 
-    private static final long serialVersionUID = -1852434573L;
+    private static final long serialVersionUID = -581903112L;
 
     public static final QCoordinate coordinate = new QCoordinate("coordinate");
 
