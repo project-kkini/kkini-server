@@ -3,6 +3,8 @@ package com.server.ggini.domain.member.service;
 import com.server.ggini.domain.member.domain.Member;
 import com.server.ggini.domain.member.domain.OauthInfo;
 import com.server.ggini.domain.member.repository.MemberRepository;
+import com.server.ggini.global.error.exception.BusinessException;
+import com.server.ggini.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,5 +39,16 @@ public class MemberService {
     @Transactional(readOnly = true)
     public Member getMemberById(Long id) {
         return memberRepository.findByIdOrThrow(id);
+    }
+
+    @Transactional
+    public Member updateNickname(Member member, String newNickname) {
+        // 닉네임 중복 체크
+        if (memberRepository.findByNickname(newNickname).isPresent()) {
+            throw new BusinessException(ErrorCode.NICKNAME_ALREADY_EXISTS);
+        }
+
+        member.updateNickname(newNickname);
+        return memberRepository.save(member);
     }
 }

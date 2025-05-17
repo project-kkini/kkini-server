@@ -75,4 +75,8 @@ public class Member extends BaseEntity {
         Coordinate coordinate = new Coordinate(latitude, longitude);
         this.companyLocation = new CompanyLocation(coordinate, stationId);
     }
+
+    public void updateNickname(String newNickname) {
+        this.nickname = newNickname;
+    }
 }
