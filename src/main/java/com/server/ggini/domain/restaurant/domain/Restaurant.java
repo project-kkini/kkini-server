@@ -4,6 +4,7 @@ import com.server.ggini.domain.restaurant.repository.converter.RestaurantImageCo
 import com.server.ggini.global.common.BaseEntity;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
+import com.server.ggini.global.common.Coordinate;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;

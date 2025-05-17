@@ -21,8 +21,19 @@ public class ErrorResponse {
         this.status = code.getStatus();
     }
 
+    // 상세 메시지를 포함하는 생성자 추가
+    private ErrorResponse(final ErrorCode code, final String detail) {
+        this.message = code.getMessage() + " - " + detail;
+        this.status = code.getStatus();
+    }
+
     public static ErrorResponse from(final ErrorCode code) {
         return new ErrorResponse(code);
+    }
+
+    // 상세 메시지를 포함하는 팩토리 메서드 추가
+    public static ErrorResponse from(final ErrorCode code, final String detail) {
+        return new ErrorResponse(code, detail);
     }
 
 }

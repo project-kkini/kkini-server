@@ -3,6 +3,7 @@ package com.server.ggini.domain.member.domain;
 import com.server.ggini.domain.member.domain.nickName.Adjective;
 import com.server.ggini.domain.member.domain.nickName.Animal;
 import com.server.ggini.global.common.BaseEntity;
+import com.server.ggini.global.common.Coordinate;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -38,15 +39,19 @@ public class Member extends BaseEntity {
     @Embedded
     private OauthInfo oauthInfo;
 
+    @Embedded
+    private CompanyLocation companyLocation;
+
     @Builder
     public Member(String nickname, String profileImageUrl, String email, String password, MemberRole role,
-                  OauthInfo oauthInfo) {
+                  OauthInfo oauthInfo, CompanyLocation companyLocation) {
         this.nickname = nickname;
         this.profileImageUrl = profileImageUrl;
         this.email = email;
         this.password = password;
         this.role = role;
         this.oauthInfo = oauthInfo;
+        this.companyLocation = companyLocation;
     }
 
     public boolean isMatchingPassword(String password) {
@@ -64,5 +69,10 @@ public class Member extends BaseEntity {
                 .role(MemberRole.USER)
                 .oauthInfo(oauthInfo)
                 .build();
+    }
+
+    public void updateCompanyLocation(Double latitude, Double longitude, Long stationId) {
+        Coordinate coordinate = new Coordinate(latitude, longitude);
+        this.companyLocation = new CompanyLocation(coordinate, stationId);
     }
 }

@@ -1,4 +1,4 @@
-package com.server.ggini.domain.restaurant.domain;
+package com.server.ggini.global.common;
 
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;

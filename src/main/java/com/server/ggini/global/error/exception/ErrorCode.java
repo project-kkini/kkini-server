@@ -36,10 +36,15 @@ public enum ErrorCode {
     JOB_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 직업을 찾을 수 없습니다"),
     ONBOARD_STATUS_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 온보딩 상태를 찾을 수 없습니다. (잘못된 온보딩 상태를 입력하셨습니다)"),
 
+    //LocationAuth
+    SUBWAY_STATION_NOT_FOUND(HttpStatus.NOT_FOUND, "주변 지하철역을 찾는 과정에서 오류가 발생하였습니다."),
+    GEO_JSON_FILE_READ_ERROR(HttpStatus.BAD_REQUEST, "GeoJSON 파일을 읽는 중 오류가 발생했습니다."),
+    GEO_JSON_PARSING_ERROR(HttpStatus.BAD_REQUEST, "GeoJSON 데이터를 파싱하는 중 오류가 발생했습니다."),
+    INVALID_GEOMETRY_TYPE(HttpStatus.BAD_REQUEST, "GeoJSON Geometry 타입이 유효하지 않습니다."),
+    INVALID_COORDINATES(HttpStatus.BAD_REQUEST,"사용자 위치 좌표가 유효하지 않습니다."),
 
     //Restaurant
     SEOUL_RESTAURANT_NOT_FOUND(HttpStatus.NOT_FOUND, "서울시 인허가 식당 DB에서 해당 식당을 찾을 수 없습니다."),
-
     RESTAURANT_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 식당을 찾을 수 없습니다."),
 
     //Review
