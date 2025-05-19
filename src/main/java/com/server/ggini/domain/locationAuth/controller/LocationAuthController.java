@@ -24,7 +24,7 @@ public class LocationAuthController {
     private final LocationAuthService locationAuthService;
 
     @PostMapping("")
-    @Operation(summary = "지역 인증 등록", description = "지역 인증을 진행합니다.")
+    @Operation(summary = "지역 인증 등록/ 재등록", description = "지역 인증을 진행합니다.")
     public ResponseEntity<LocationAuthResponse> authenticateLocation(
             @AuthUser Member member,
             @Valid @RequestBody LocationAuthRequest locationAuthRequest
@@ -32,12 +32,12 @@ public class LocationAuthController {
         return ResponseEntity.ok(locationAuthService.authenticateLocation(member, locationAuthRequest));
     }
 
-    @PutMapping("")
-    @Operation(summary = "지역 인증 재등록 - 미완", description = "지역 인증을 재등록합니다.")
-    public ResponseEntity<LocationAuthResponse> reAuthenticateLocal(
-            @AuthUser Member member,
-            @Valid @RequestBody LocationAuthRequest locationAuthRequest
-    ){
-        return ResponseEntity.ok(null);
-    }
+    // @PutMapping("")
+    // @Operation(summary = "지역 인증 재등록 - 미완", description = "지역 인증을 재등록합니다.")
+    // public ResponseEntity<LocationAuthResponse> reAuthenticateLocal(
+    //         @AuthUser Member member,
+    //         @Valid @RequestBody LocationAuthRequest locationAuthRequest
+    // ){
+    //     return ResponseEntity.ok(null);
+    // }
 }
